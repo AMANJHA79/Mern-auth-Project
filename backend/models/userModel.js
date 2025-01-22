@@ -1,44 +1,48 @@
+// Import Mongoose for MongoDB object modeling
 const mongoose = require('mongoose');
 
+/**
+ * User Schema Definition
+ * Defines the structure and validation rules for user documents
+ */
 const userSchema = new mongoose.Schema({
-    email:{
+    email: {
         type: String,
         required: true,
-        unique: true
+        unique: true        // Ensures email uniqueness across users
     },
-    password:{
+    password: {
+        type: String,
+        required: true      // Stores hashed password
+    },
+    name: {
         type: String,
         required: true
     },
-    name:{
-        type: String,
-        required: true
-    },
-    lastLogin:{
+    lastLogin: {
         type: Date,
-        default: Date.now()
+        default: Date.now() // Tracks user's last login timestamp
     },
-    isVerified:{
+    isVerified: {
         type: Boolean,
-        default: false
+        default: false      // Email verification status
     },
-    resetPasswordToken:{
-        type: String
+    resetPasswordToken: {
+        type: String        // Token for password reset functionality
     },
-    resetPasswordExpiresAt:{
-        type: Date
+    resetPasswordExpiresAt: {
+        type: Date          // Expiration timestamp for reset token
     },
-    verificationToken:{
-        type: String
+    verificationToken: {
+        type: String        // Token for email verification
     },
-    verificationTokenExpiresAt:{
-        type: Date
+    verificationTokenExpiresAt: {
+        type: Date          // Expiration timestamp for verification token
     }
+}, {
+    timestamps: true        // Automatically manage createdAt and updatedAt
+});
 
-},{
-    timestamps: true
-})
-
+// Create and export the User model
 const User = mongoose.model('User', userSchema);
-
 module.exports = User;

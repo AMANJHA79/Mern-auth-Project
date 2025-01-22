@@ -1,18 +1,23 @@
+// Import the Nodemailer library for email functionality
 const nodemailer = require('nodemailer');
 
-// Create a Nodemailer transporter
+/**
+ * Configure Nodemailer transporter with Brevo SMTP settings
+ * This transporter will be used for sending all emails from the application
+ * @type {nodemailer.Transporter}
+ */
 const transporter = nodemailer.createTransport({
     host: 'smtp-relay.brevo.com',
     port: 587,
-    secure: false, // true for 465, false for other ports
+    secure: false, // Use TLS - true for port 465, false for other ports
     auth: {
-        user: process.env.SMTP_USER,
-        pass: process.env.SMTP_PASSWORD,
+        user: process.env.SMTP_USER,     // SMTP username from environment variables
+        pass: process.env.SMTP_PASSWORD, // SMTP password from environment variables
     },
 });
 
-// Define the sender email
+// Define the default sender email address from environment variables
 const sender = process.env.EMAIL_FROM;
 
-// Export the transporter and sender
+// Export the configured transporter and sender email
 module.exports = { transporter, sender };
