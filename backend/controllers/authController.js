@@ -25,10 +25,14 @@ const signup = async (req, res) => {
             name,
             email,
             password: hashedPassword,
-            verificationToken: verificationToken
+            verificationToken: verificationToken,
+            verificationTokenExpiresAt: Date.now() + 24 * 60 * 60 * 1000 // 24 hours 
         });
 
         await user.save();
+
+        //jwt token 
+        generateTokenAndSetCookie(res,user._id);
 
         res.status(200).json({
             success: true,
